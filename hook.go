@@ -1,4 +1,4 @@
-package lib
+package gofui
 
 import "github.com/beavorp/gofui/element"
 

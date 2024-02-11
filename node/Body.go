@@ -8,19 +8,16 @@ import (
 
 type Body struct {
 	ref   *js.Value
-	style *element.Style
+	Style *element.Style
 }
 
 func NewBody() *Body {
 	el := js.Global().Get("document").Get("body")
 	style := element.NewStyle(el)
 
-	style.H_PaMa0() // padding and margin 0
-	style.SetOverflow("hidden")
-
 	return &Body{
 		ref:   &el,
-		style: style,
+		Style: style,
 	}
 }
 

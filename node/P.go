@@ -21,6 +21,11 @@ func NewP(text string) *P {
 	}
 }
 
+func (p *P) SetInnerHTML(html string) *P {
+	p.ref.Set("innerHTML", html)
+	return p
+}
+
 func (p *P) SetChildren(children []*js.Value) {
 	replaceChildren(*p.ref, children)
 }
@@ -31,8 +36,4 @@ func (p *P) Render() element.Element {
 
 func (p *P) Value() *js.Value {
 	return p.ref
-}
-
-func setInnerText(ref js.Value, text string) {
-	ref.Set("innerText", text)
 }

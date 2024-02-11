@@ -14,3 +14,15 @@ func replaceChildren(el js.Value, children []*js.Value) {
 
 	el.Call("replaceChildren", vals...)
 }
+
+func replaceChildrenV2(el js.Value, els ...*js.Value) {
+	children := make([]interface{}, 0, len(els))
+	for _, child := range els {
+		if child == nil {
+			continue
+		}
+		children = append(children, *child)
+	}
+
+	el.Call("replaceChildren", children...)
+}

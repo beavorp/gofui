@@ -6,7 +6,7 @@ import (
 	"github.com/beavorp/gofui/element"
 )
 
-func Show(when bool, a element.Element) *js.Value {
+func ShowIf(when bool, a element.Element) *js.Value {
 	if when {
 		if a == nil {
 			return nil

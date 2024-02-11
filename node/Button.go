@@ -1,6 +1,7 @@
 package node
 
 import (
+	"fmt"
 	"syscall/js"
 
 	"github.com/beavorp/gofui/element"
@@ -13,14 +14,14 @@ type Button struct {
 	OnClick func()
 }
 
-func NewButton() *Button {
+func NewButton(html string) *Button {
 	el := js.Global().Get("document").Call("createElement", "button")
 	b := &Button{
 		el:    &el,
 		Style: element.NewStyle(el),
 	}
 
-	el.Set("innerHTML", "Button")
+	el.Set("innerHTML", html)
 	el.Set("onclick", js.FuncOf(b.onClick))
 
 	return b
@@ -39,4 +40,13 @@ func (b *Button) Render() element.Element {
 
 func (b *Button) Value() *js.Value {
 	return b.el
+}
+
+func (b *Button) SetId(id string) {
+	b.el.Set("id", id)
+}
+
+func (b *Button) SetDisabled(disabled bool) {
+	fmt.Println("Setting disabled", disabled)
+	b.el.Set("disabled", disabled)
 }

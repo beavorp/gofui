@@ -19,8 +19,9 @@ func NewDiv() *Div {
 	}
 }
 
-func (d *Div) SetChildren(children []*js.Value) {
+func (d *Div) SetChildren(children []*js.Value) *Div {
 	replaceChildren(*d.ref, children)
+	return d
 }
 
 func (d *Div) Render() element.Element {
@@ -29,4 +30,19 @@ func (d *Div) Render() element.Element {
 
 func (d *Div) Value() *js.Value {
 	return d.ref
+}
+
+func (d *Div) SetId(id string) {
+	d.ref.Set("id", id)
+}
+
+// C is a shorthand for SetChildren
+func (d *Div) C(els ...*js.Value) *js.Value {
+	replaceChildrenV2(*d.ref, els...)
+	return d.Value()
+}
+
+func (d *Div) Class(class string) *Div {
+	d.Style.SetClassName(class)
+	return d
 }
