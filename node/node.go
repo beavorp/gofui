@@ -63,3 +63,11 @@ func (n *Node) OnClick(fn func(e *core.PointerEvent)) *Node {
 func (n *Node) Ref() *js.Value {
 	return n.ref
 }
+
+func (n *Node) AddClass(className string) {
+	n.Style.AddClassName(className)
+}
+
+func (n *Node) RemoveClass(className string) {
+	n.Style.RemoveClassName(className)
+}

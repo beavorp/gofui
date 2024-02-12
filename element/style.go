@@ -46,3 +46,11 @@ func (s Style) SetOverflow(overflow string) {
 func (s Style) SetClassName(className string) {
 	s.el.Set("className", className)
 }
+
+func (s Style) AddClassName(className string) {
+	s.el.Get("classList").Call("add", className)
+}
+
+func (s Style) RemoveClassName(className string) {
+	s.el.Get("classList").Call("remove", className)
+}
