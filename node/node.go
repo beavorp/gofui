@@ -1,21 +1,37 @@
 package node
 
-import "syscall/js"
+import (
+	"syscall/js"
 
-func replaceChildren(el js.Value, children []*js.Value) {
-	vals := make([]interface{}, 0, len(children))
-	for _, child := range children {
-		if child == nil {
-			continue
-		}
+	"github.com/beavorp/gofui/element"
+)
 
-		vals = append(vals, *child)
-	}
-
-	el.Call("replaceChildren", vals...)
+type Node struct {
+	// ref
+	ref   *js.Value
+	Style *element.Style
 }
 
-func replaceChildrenV2(el js.Value, els ...*js.Value) {
+func NewNode(v *js.Value) *Node {
+	return &Node{
+		ref:   v,
+		Style: element.NewStyle(*v),
+	}
+}
+
+func (n *Node) Render() element.Element {
+	return n
+}
+
+func (n *Node) Value() *js.Value {
+	return n.ref
+}
+
+func (n *Node) SetId(id string) {
+	n.ref.Set("id", id)
+}
+
+func (n *Node) C(els ...*js.Value) *js.Value {
 	children := make([]interface{}, 0, len(els))
 	for _, child := range els {
 		if child == nil {
@@ -24,5 +40,25 @@ func replaceChildrenV2(el js.Value, els ...*js.Value) {
 		children = append(children, *child)
 	}
 
-	el.Call("replaceChildren", children...)
+	n.ref.Call("replaceChildren", children...)
+
+	return n.Value()
+}
+
+func (n *Node) Class(class string) *Node {
+	n.Style.SetClassName(class)
+	return n
+}
+
+func (n *Node) OnClick(fn func()) *Node {
+	n.ref.Set("onclick", js.FuncOf(func(this js.Value, args []js.Value) any {
+		fn()
+		return nil
+	}))
+
+	return n
+}
+
+func (n *Node) Ref() *js.Value {
+	return n.ref
 }
