@@ -3,6 +3,7 @@ package node
 import (
 	"syscall/js"
 
+	"github.com/beavorp/gofui/core"
 	"github.com/beavorp/gofui/element"
 )
 
@@ -50,9 +51,9 @@ func (n *Node) Class(class string) *Node {
 	return n
 }
 
-func (n *Node) OnClick(fn func()) *Node {
+func (n *Node) OnClick(fn func(e *core.PointerEvent)) *Node {
 	n.ref.Set("onclick", js.FuncOf(func(this js.Value, args []js.Value) any {
-		fn()
+		fn(core.NewPointerEvent(args[0]))
 		return nil
 	}))
 
