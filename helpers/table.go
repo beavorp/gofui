@@ -5,9 +5,10 @@ import (
 )
 
 type Column[T any] struct {
-	Key    string
-	Header *js.Value
-	Ceil   func(data T) *js.Value
+	Key      string
+	Header   *js.Value
+	Ceil     func(data T) *js.Value
+	FilterFn func(data T) bool
 }
 
 type TableConfig[T any] struct {
@@ -43,7 +44,31 @@ func (t *Table[T]) SetData(data []T) {
 }
 
 func (t *Table[T]) computeDisplayedData() {
+	// Start by counting the number of filter funcs
+	funcs := make([]func(data T) bool, 0, len(t.config.Columns))
+	for _, col := range t.config.Columns {
+		if col.FilterFn != nil {
+			funcs = append(funcs, col.FilterFn)
+		}
+	}
+
 	t.displayedData = t.data
+	newData := make([]T, 0, len(t.data))
+
+	for _, fn := range funcs {
+		for _, data := range t.displayedData {
+			// If the filter func returns false, we skip the data
+			if !fn(data) {
+				continue
+			}
+
+			newData = append(newData, data)
+		}
+
+		t.displayedData = newData
+	}
+
+	// By the end of the loop, t.displayedData will contain only the data that passed all the filter funcs
 }
 
 func (t *Table[T]) OnChange(fn func()) {
