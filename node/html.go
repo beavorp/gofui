@@ -7,29 +7,37 @@ import (
 )
 
 type (
-	Body   struct{ *Node }
-	Div    struct{ *Node }
-	Aside  struct{ *Node }
-	Header struct{ *Node }
-	Footer struct{ *Node }
-	H1     struct{ *Node }
-	H2     struct{ *Node }
-	H3     struct{ *Node }
-	H4     struct{ *Node }
-	H5     struct{ *Node }
-	H6     struct{ *Node }
-	P      struct{ *Node }
-	Nav    struct{ *Node }
-	I      struct{ *Node }
-	Button struct{ *Node }
-	DD     struct{ *Node }
-	DT     struct{ *Node }
-	DL     struct{ *Node }
-	UL     struct{ *Node }
-	LI     struct{ *Node }
-	OL     struct{ *Node }
-	A      struct{ *Node }
-	Span   struct{ *Node }
+	Body    struct{ *Node }
+	Div     struct{ *Node }
+	Aside   struct{ *Node }
+	Header  struct{ *Node }
+	Footer  struct{ *Node }
+	H1      struct{ *Node }
+	H2      struct{ *Node }
+	H3      struct{ *Node }
+	H4      struct{ *Node }
+	H5      struct{ *Node }
+	H6      struct{ *Node }
+	P       struct{ *Node }
+	Nav     struct{ *Node }
+	I       struct{ *Node }
+	Button  struct{ *Node }
+	DD      struct{ *Node }
+	DT      struct{ *Node }
+	DL      struct{ *Node }
+	UL      struct{ *Node }
+	LI      struct{ *Node }
+	OL      struct{ *Node }
+	A       struct{ *Node }
+	Span    struct{ *Node }
+	Table   struct{ *Node }
+	Caption struct{ *Node }
+	THead   struct{ *Node }
+	TBody   struct{ *Node }
+	TR      struct{ *Node }
+	TH      struct{ *Node }
+	TD      struct{ *Node }
+	TFoot   struct{ *Node }
 )
 
 func String(content string) *js.Value {
@@ -150,4 +158,39 @@ func NewA() *A {
 func NewSpan() *Span {
 	el := core.CreateElement("span")
 	return &Span{NewNode(&el)}
+}
+
+func NewTable() *Table {
+	el := core.CreateElement("table")
+	return &Table{NewNode(&el)}
+}
+
+func NewCaption() *Caption {
+	el := core.CreateElement("caption")
+	return &Caption{NewNode(&el)}
+}
+
+func NewTHead() *THead {
+	el := core.CreateElement("thead")
+	return &THead{NewNode(&el)}
+}
+
+func NewTBody() *TBody {
+	el := core.CreateElement("tbody")
+	return &TBody{NewNode(&el)}
+}
+
+func NewTR() *TR {
+	el := core.CreateElement("tr")
+	return &TR{NewNode(&el)}
+}
+
+func NewTH() *TH {
+	el := core.CreateElement("th")
+	return &TH{NewNode(&el)}
+}
+
+func NewTD() *TD {
+	el := core.CreateElement("td")
+	return &TD{NewNode(&el)}
 }
