@@ -33,6 +33,7 @@ func NewApp(ref *node.Body) *App {
 }
 
 func (a *App) Render() element.Element {
+	// Will update the children of the body
 	a.ref.C(
 		node.String("Hello world"),
 	)
