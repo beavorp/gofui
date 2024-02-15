@@ -4,13 +4,13 @@ import "github.com/beavorp/gofui/element"
 
 type Store[T any] struct {
 	v         T
-	consumers []element.Element
+	consumers map[element.Element]bool
 }
 
 func NewStore[T any](v T) *Store[T] {
 	return &Store[T]{
 		v:         v,
-		consumers: make([]element.Element, 0, 5), // 5 is an arbitrary number
+		consumers: make(map[element.Element]bool, 5), // 5 is an arbitrary number
 	}
 }
 
@@ -20,11 +20,11 @@ func (s *Store[T]) Get() T {
 
 func (s *Store[T]) Set(v T) {
 	s.v = v
-	for _, c := range s.consumers {
-		c.Render()
+	for e, _ := range s.consumers {
+		e.Render()
 	}
 }
 
 func (s *Store[T]) subscribe(c element.Element) {
-	s.consumers = append(s.consumers, c)
+	s.consumers[c] = true
 }
