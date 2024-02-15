@@ -33,9 +33,12 @@ func (s Style) SetHeight(height string) {
 	s.elStyle.Set("height", height)
 }
 
-func (s Style) H_PaMa0() {
-	s.elStyle.Set("padding", 0)
-	s.elStyle.Set("margin", 0)
+func (s Style) SetPadding(padding string) {
+	s.elStyle.Set("padding", padding)
+}
+
+func (s Style) SetMargin(margin string) {
+	s.elStyle.Set("margin", margin)
 }
 
 func (s Style) SetDisplay(display string) {
