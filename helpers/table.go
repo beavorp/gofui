@@ -19,28 +19,28 @@ type Table[T any] struct {
 	data          []T
 	displayedData []T
 
-	config   TableConfig[T]
-	onChange func()
+	config     TableConfig[T]
+	renderRows func()
 }
 
 func NewTable[T any](config TableConfig[T]) *Table[T] {
 	return &Table[T]{
-		data:     make([]T, 0),
-		onChange: func() {},
-		config:   config,
+		data:       make([]T, 0),
+		renderRows: func() {},
+		config:     config,
 	}
 }
 
 func (t *Table[T]) SetColumns(cols []Column[T]) {
 	t.config.Columns = cols
 	t.computeDisplayedData()
-	t.onChange()
+	t.renderRows()
 }
 
 func (t *Table[T]) SetData(data []T) {
 	t.data = data
 	t.computeDisplayedData()
-	t.onChange()
+	t.renderRows()
 }
 
 func (t *Table[T]) computeDisplayedData() {
@@ -66,13 +66,17 @@ func (t *Table[T]) computeDisplayedData() {
 		}
 
 		t.displayedData = newData
+		newData = make([]T, 0, len(t.displayedData))
 	}
 
 	// By the end of the loop, t.displayedData will contain only the data that passed all the filter funcs
 }
 
-func (t *Table[T]) OnChange(fn func()) {
-	t.onChange = fn
+func (t *Table[T]) OnRenderRows(fn func()) {
+	if fn == nil {
+		return
+	}
+	t.renderRows = fn
 }
 
 func (t *Table[T]) GetHeaders() []*js.Value {

@@ -3,8 +3,13 @@ package core
 import "syscall/js"
 
 type (
-	Event struct {
+	EventTarget struct {
 		ref js.Value
+	}
+
+	Event struct {
+		ref    js.Value
+		Target EventTarget
 	}
 
 	UIEvent struct {
@@ -23,7 +28,14 @@ type (
 func NewEvent(ref js.Value) *Event {
 	return &Event{
 		ref: ref,
+		Target: EventTarget{
+			ref: ref.Get("target"),
+		},
 	}
+}
+
+func (t *EventTarget) Value() js.Value {
+	return t.ref.Get("value")
 }
 
 func NewUIEvent(ref js.Value) *UIEvent {

@@ -7,32 +7,34 @@ import (
 	"github.com/beavorp/gofui/element"
 )
 
-type Node struct {
+type Node[T element.Element] struct {
 	// ref
+	p     T
 	ref   *js.Value
 	Style *element.Style
 }
 
-func NewNode(v *js.Value) *Node {
-	return &Node{
+func NewNode[T element.Element](parent T, v *js.Value) *Node[T] {
+	return &Node[T]{
+		p:     parent,
 		ref:   v,
 		Style: element.NewStyle(*v),
 	}
 }
 
-func (n *Node) Render() element.Element {
+func (n *Node[T]) Render() element.Element {
 	return n
 }
 
-func (n *Node) Value() *js.Value {
+func (n *Node[T]) Value() *js.Value {
 	return n.ref
 }
 
-func (n *Node) SetId(id string) {
+func (n *Node[T]) SetId(id string) {
 	n.ref.Set("id", id)
 }
 
-func (n *Node) C(els ...*js.Value) *js.Value {
+func (n *Node[T]) C(els ...*js.Value) *js.Value {
 	children := make([]interface{}, 0, len(els))
 	for _, child := range els {
 		if child == nil {
@@ -46,28 +48,50 @@ func (n *Node) C(els ...*js.Value) *js.Value {
 	return n.Value()
 }
 
-func (n *Node) Class(class string) *Node {
+func (n *Node[T]) Class(class string) T {
 	n.Style.SetClassName(class)
-	return n
+	return n.p
 }
 
-func (n *Node) OnClick(fn func(e *core.PointerEvent)) *Node {
+func (n *Node[T]) OnClick(fn func(e *core.PointerEvent)) T {
 	n.ref.Set("onclick", js.FuncOf(func(this js.Value, args []js.Value) any {
 		fn(core.NewPointerEvent(args[0]))
 		return nil
 	}))
 
-	return n
+	return n.p
 }
 
-func (n *Node) Ref() *js.Value {
+func (n *Node[T]) OnInput(fn func(e *core.Event)) T {
+	n.ref.Set("oninput", js.FuncOf(func(this js.Value, args []js.Value) any {
+		fn(core.NewEvent(args[0]))
+		return nil
+	}))
+
+	return n.p
+}
+
+func (n *Node[T]) OnChange(fn func(e *core.Event)) T {
+	n.ref.Call("addEventListener", "change", js.FuncOf(func(this js.Value, args []js.Value) any {
+		fn(core.NewEvent(args[0]))
+		return nil
+	}))
+
+	return n.p
+}
+
+func (n *Node[T]) Ref() *js.Value {
 	return n.ref
 }
 
-func (n *Node) AddClass(className string) {
+func (n *Node[T]) AddClass(className string) {
 	n.Style.AddClassName(className)
 }
 
-func (n *Node) RemoveClass(className string) {
+func (n *Node[T]) RemoveClass(className string) {
 	n.Style.RemoveClassName(className)
+}
+
+func (n *Node[T]) Attr(key string, value string) {
+	n.ref.Set(key, value)
 }

@@ -7,37 +7,38 @@ import (
 )
 
 type (
-	Body    struct{ *Node }
-	Div     struct{ *Node }
-	Aside   struct{ *Node }
-	Header  struct{ *Node }
-	Footer  struct{ *Node }
-	H1      struct{ *Node }
-	H2      struct{ *Node }
-	H3      struct{ *Node }
-	H4      struct{ *Node }
-	H5      struct{ *Node }
-	H6      struct{ *Node }
-	P       struct{ *Node }
-	Nav     struct{ *Node }
-	I       struct{ *Node }
-	Button  struct{ *Node }
-	DD      struct{ *Node }
-	DT      struct{ *Node }
-	DL      struct{ *Node }
-	UL      struct{ *Node }
-	LI      struct{ *Node }
-	OL      struct{ *Node }
-	A       struct{ *Node }
-	Span    struct{ *Node }
-	Table   struct{ *Node }
-	Caption struct{ *Node }
-	THead   struct{ *Node }
-	TBody   struct{ *Node }
-	TR      struct{ *Node }
-	TH      struct{ *Node }
-	TD      struct{ *Node }
-	TFoot   struct{ *Node }
+	Body    struct{ *Node[*Body] }
+	Div     struct{ *Node[*Div] }
+	Aside   struct{ *Node[*Aside] }
+	Header  struct{ *Node[*Header] }
+	Footer  struct{ *Node[*Footer] }
+	H1      struct{ *Node[*H1] }
+	H2      struct{ *Node[*H2] }
+	H3      struct{ *Node[*H3] }
+	H4      struct{ *Node[*H4] }
+	H5      struct{ *Node[*H5] }
+	H6      struct{ *Node[*H6] }
+	P       struct{ *Node[*P] }
+	Nav     struct{ *Node[*Nav] }
+	I       struct{ *Node[*I] }
+	Button  struct{ *Node[*Button] }
+	DD      struct{ *Node[*DD] }
+	DT      struct{ *Node[*DT] }
+	DL      struct{ *Node[*DL] }
+	UL      struct{ *Node[*UL] }
+	LI      struct{ *Node[*LI] }
+	OL      struct{ *Node[*OL] }
+	A       struct{ *Node[*A] }
+	Span    struct{ *Node[*Span] }
+	Table   struct{ *Node[*Table] }
+	Caption struct{ *Node[*Caption] }
+	THead   struct{ *Node[*THead] }
+	TBody   struct{ *Node[*TBody] }
+	TR      struct{ *Node[*TR] }
+	TH      struct{ *Node[*TH] }
+	TD      struct{ *Node[*TD] }
+	TFoot   struct{ *Node[*TFoot] }
+	Input   struct{ *Node[*Input] }
 )
 
 func String(content string) *js.Value {
@@ -45,152 +46,271 @@ func String(content string) *js.Value {
 	return &v
 }
 
-func NewBody() *Body {
+func NewBody() (p *Body) {
 	el := js.Global().Get("document").Get("body")
-	return &Body{NewNode(&el)}
+	p = &Body{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewDiv() *Div {
+func NewDiv() (p *Div) {
 	el := core.CreateElement("div")
-	return &Div{NewNode(&el)}
+	p = &Div{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewAside() *Aside {
+func NewAside() (p *Aside) {
 	el := core.CreateElement("aside")
-	return &Aside{NewNode(&el)}
+	p = &Aside{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewHeader() *Header {
+func NewHeader() (p *Header) {
 	el := core.CreateElement("header")
-	return &Header{NewNode(&el)}
+	p = &Header{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewFooter() *Footer {
+func NewFooter() (p *Footer) {
 	el := core.CreateElement("footer")
-	return &Footer{NewNode(&el)}
+	p = &Footer{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewH1() *H1 {
+func NewH1() (p *H1) {
 	el := core.CreateElement("h1")
-	return &H1{NewNode(&el)}
+	p = &H1{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewH2() *H2 {
+func NewH2() (p *H2) {
 	el := core.CreateElement("h2")
-	return &H2{NewNode(&el)}
+	p = &H2{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewH3() *H3 {
+func NewH3() (p *H3) {
 	el := core.CreateElement("h3")
-	return &H3{NewNode(&el)}
+	p = &H3{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewH4() *H4 {
+func NewH4() (p *H4) {
 	el := core.CreateElement("h4")
-	return &H4{NewNode(&el)}
+	p = &H4{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewH5() *H5 {
+func NewH5() (p *H5) {
 	el := core.CreateElement("h5")
-	return &H5{NewNode(&el)}
+	p = &H5{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewH6() *H6 {
+func NewH6() (p *H6) {
 	el := core.CreateElement("h6")
-	return &H6{NewNode(&el)}
+	p = &H6{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewP() *P {
+func NewP() (p *P) {
 	el := core.CreateElement("p")
-	return &P{NewNode(&el)}
+	p = &P{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewNav() *Nav {
+func NewNav() (p *Nav) {
 	el := core.CreateElement("nav")
-	return &Nav{NewNode(&el)}
+	p = &Nav{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewI() *I {
+func NewI() (p *I) {
 	el := core.CreateElement("i")
-	return &I{NewNode(&el)}
+	p = &I{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewButton() *Button {
+func NewButton() (p *Button) {
 	el := core.CreateElement("button")
-	return &Button{NewNode(&el)}
+	p = &Button{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewDD() *DD {
+func NewDD() (p *DD) {
 	el := core.CreateElement("dd")
-	return &DD{NewNode(&el)}
+	p = &DD{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewDT() *DT {
+func NewDT() (p *DT) {
 	el := core.CreateElement("dt")
-	return &DT{NewNode(&el)}
+	p = &DT{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewDL() *DL {
+func NewDL() (p *DL) {
 	el := core.CreateElement("dl")
-	return &DL{NewNode(&el)}
+	p = &DL{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewUL() *UL {
+func NewUL() (p *UL) {
 	el := core.CreateElement("ul")
-	return &UL{NewNode(&el)}
+	p = &UL{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewLI() *LI {
+func NewLI() (p *LI) {
 	el := core.CreateElement("li")
-	return &LI{NewNode(&el)}
+	p = &LI{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewOL() *OL {
+func NewOL() (p *OL) {
 	el := core.CreateElement("ol")
-	return &OL{NewNode(&el)}
+	p = &OL{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewA() *A {
+func NewA() (p *A) {
 	el := core.CreateElement("a")
-	return &A{NewNode(&el)}
+	p = &A{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewSpan() *Span {
+func NewSpan() (p *Span) {
 	el := core.CreateElement("span")
-	return &Span{NewNode(&el)}
+	p = &Span{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewTable() *Table {
+func NewTable() (p *Table) {
 	el := core.CreateElement("table")
-	return &Table{NewNode(&el)}
+	p = &Table{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewCaption() *Caption {
+func NewCaption() (p *Caption) {
 	el := core.CreateElement("caption")
-	return &Caption{NewNode(&el)}
+	p = &Caption{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewTHead() *THead {
+func NewTHead() (p *THead) {
 	el := core.CreateElement("thead")
-	return &THead{NewNode(&el)}
+	p = &THead{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewTBody() *TBody {
+func NewTBody() (p *TBody) {
 	el := core.CreateElement("tbody")
-	return &TBody{NewNode(&el)}
+	p = &TBody{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewTR() *TR {
+func NewTR() (p *TR) {
 	el := core.CreateElement("tr")
-	return &TR{NewNode(&el)}
+	p = &TR{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewTH() *TH {
+func NewTH() (p *TH) {
 	el := core.CreateElement("th")
-	return &TH{NewNode(&el)}
+	p = &TH{
+		Node: NewNode(p, &el),
+	}
+	return
 }
 
-func NewTD() *TD {
+func NewTD() (p *TD) {
 	el := core.CreateElement("td")
-	return &TD{NewNode(&el)}
+	p = &TD{
+		Node: NewNode(p, &el),
+	}
+	return
+}
+
+func NewTFoot() (p *TFoot) {
+	el := core.CreateElement("tfoot")
+	p = &TFoot{
+		Node: NewNode(p, &el),
+	}
+	return
+}
+
+func NewInput() (p *Input) {
+	el := core.CreateElement("input")
+	p = &Input{
+		Node: NewNode(p, &el),
+	}
+	return
+}
+
+const (
+	TypeText     = "text"
+	TypePassword = "password"
+	TypeEmail    = "email"
+	TypeNumber   = "number"
+	TypeDate     = "date"
+)
+
+func (i *Input) Type(t string) *Input {
+	i.Attr("type", t)
+	return i
 }
