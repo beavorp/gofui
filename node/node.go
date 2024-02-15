@@ -8,8 +8,9 @@ import (
 )
 
 type Node[T element.Element] struct {
+	// parent
+	p T
 	// ref
-	p     T
 	ref   *js.Value
 	Style *element.Style
 }
