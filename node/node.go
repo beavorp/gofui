@@ -50,7 +50,12 @@ func (n *Node[T]) C(els ...*js.Value) *js.Value {
 }
 
 func (n *Node[T]) Class(class string) T {
-	n.Style.SetClassName(class)
+	n.Style.Class(class)
+	return n.p
+}
+
+func (n *Node[T]) Clsx(clsx map[string]bool) T {
+	n.Style.Clsx(clsx)
 	return n.p
 }
 
