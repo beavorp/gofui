@@ -13,10 +13,10 @@ var (
 	Session = &Storage{ref: js.Global().Get("window").Get("sessionStorage")}
 )
 
-func (s *Storage) GetItem(key string) string {
-	return s.ref.Call("getItem", key).String()
+func (s *Storage) GetItem(key string) js.Value {
+	return s.ref.Call("getItem", key)
 }
 
-func (s *Storage) SetItem(key, value string) {
+func (s *Storage) SetItem(key, value any) {
 	s.ref.Call("setItem", key, value)
 }
