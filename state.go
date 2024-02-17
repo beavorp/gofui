@@ -15,3 +15,8 @@ func (s *State[T]) Set(v T) {
 	s.v = v
 	s.e.Render()
 }
+
+func (s *State[T]) Mutate(f func(T) T) {
+	s.v = f(s.v)
+	s.e.Render()
+}

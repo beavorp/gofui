@@ -20,6 +20,15 @@ func (s *Store[T]) Get() T {
 
 func (s *Store[T]) Set(v T) {
 	s.v = v
+	s.Notify()
+}
+
+func (s *Store[T]) Mutate(f func(T) T) {
+	s.v = f(s.v)
+	s.Notify()
+}
+
+func (s *Store[T]) Notify() {
 	for e, _ := range s.consumers {
 		e.Render()
 	}
