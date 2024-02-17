@@ -5,7 +5,7 @@ import (
 	"github.com/beavorp/gofui/element"
 )
 
-type MiddleWareFunc func(next MiddleWareFunc)
+type MiddleWareFunc func(next func())
 
 type route struct {
 	path       string
@@ -34,16 +34,16 @@ func Dispatch() {
 		return
 	}
 
-	for i, m := range match.middleware {
-		if i == len(match.middleware)-1 {
-			m(func(next MiddleWareFunc) {
-				match.e.Render().Value()
-			})
-			break
+	shouldContinue := false
+	nextFunc := func() { shouldContinue = true }
+	for _, m := range match.middleware {
+		shouldContinue = false
+		if m(nextFunc); !shouldContinue {
+			return
 		}
-		next := match.middleware[i+1]
-		m(next)
 	}
+	// We render the element after all middleware has been executed
+	match.e.Render().Value()
 }
 
 func Navigate(path string) {
