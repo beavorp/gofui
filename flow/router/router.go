@@ -5,15 +5,17 @@ import (
 	"github.com/beavorp/gofui/element"
 )
 
+type MiddleWareFunc func(next MiddleWareFunc)
+
 type route struct {
 	path       string
 	e          element.Element
-	middleware []func()
+	middleware []MiddleWareFunc
 }
 
 var routes = make(map[string]*route, 0)
 
-func Register(path string, e element.Element, middleware ...func()) {
+func Register(path string, e element.Element, middleware ...MiddleWareFunc) {
 	routes[path] = &route{
 		path:       path,
 		e:          e,
@@ -32,11 +34,16 @@ func Dispatch() {
 		return
 	}
 
-	for _, m := range match.middleware {
-		m()
+	for i, m := range match.middleware {
+		if i == len(match.middleware)-1 {
+			m(func(next MiddleWareFunc) {
+				match.e.Render().Value()
+			})
+			break
+		}
+		next := match.middleware[i+1]
+		m(next)
 	}
-
-	match.e.Render().Value()
 }
 
 func Navigate(path string) {
