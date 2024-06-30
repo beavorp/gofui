@@ -27,7 +27,7 @@ func (n *Node[T]) Render() element.Element {
 	return n
 }
 
-func (n *Node[T]) Value() *js.Value {
+func (n *Node[T]) Ref() *js.Value {
 	return n.ref
 }
 
@@ -46,7 +46,7 @@ func (n *Node[T]) C(els ...*js.Value) *js.Value {
 
 	n.ref.Call("replaceChildren", children...)
 
-	return n.Value()
+	return n.Ref()
 }
 
 func (n *Node[T]) Class(class string) T {
@@ -86,10 +86,6 @@ func (n *Node[T]) OnChange(fn func(e *core.Event)) T {
 	return n.p
 }
 
-func (n *Node[T]) Ref() *js.Value {
-	return n.ref
-}
-
 func (n *Node[T]) AddClass(className string) {
 	n.Style.AddClassName(className)
 }
@@ -100,4 +96,10 @@ func (n *Node[T]) RemoveClass(className string) {
 
 func (n *Node[T]) Attr(key string, value string) {
 	n.ref.Set(key, value)
+}
+
+// P Returns the parent element where the node is attached to
+// If you are using this on a component, it will return the component itself.
+func (n *Node[T]) P() T {
+	return n.p
 }

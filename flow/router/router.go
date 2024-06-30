@@ -43,7 +43,7 @@ func Dispatch() {
 		}
 	}
 	// We render the element after all middleware has been executed
-	match.e.Render().Value()
+	match.e.Render().Ref()
 }
 
 func Navigate(path string) {

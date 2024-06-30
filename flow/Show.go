@@ -12,7 +12,7 @@ func ShowIf(when bool, a element.Element) *js.Value {
 			return nil
 		}
 
-		return a.Render().Value()
+		return a.Render().Ref()
 	}
 
 	return nil

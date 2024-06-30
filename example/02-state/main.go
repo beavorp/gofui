@@ -25,7 +25,7 @@ func main() {
 
 // App is the main component of the app.
 // A component is a struct that implements the element.Element interface.
-// It has a Render method that returns the element.Element and a Value method that returns the js.Value of the component.
+// It has a Render method that returns the element.Element and a Ref method that returns the *js.Value of the component.
 type App struct {
 	// ref to node.Body
 	ref *node.Body
@@ -68,6 +68,6 @@ func (a *App) Render() element.Element {
 	return a
 }
 
-func (a *App) Value() *js.Value {
-	return a.ref.Value()
+func (a *App) Ref() *js.Value {
+	return a.ref.Ref()
 }
